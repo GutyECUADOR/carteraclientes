@@ -36,7 +36,7 @@ class Login extends CI_Controller {
 				);
 			
 			$this->session->set_userdata($newdata);
-			redirect('carteracliente');	
+			redirect('CarteraCliente');	 // TO controller
 			} else {
 	
 				$this->session->set_flashdata('errormassage','Usuario o contraseña incorrecta');

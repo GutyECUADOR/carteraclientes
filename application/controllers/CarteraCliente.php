@@ -21,8 +21,8 @@ class CarteraCliente extends CI_Controller {
 				$this->load->view('carteraclientes_view', compact('marcasArray'));
 				
 			}else{
-				$marcasArray = $this->CarteraClientesModel->getMarcas();
-				$this->load->view('login', compact('marcasArray'));
+				$databasesArray = $this->usuario->getAllDataBaseList();
+				$this->load->view('login', compact('databasesArray'));
 		}
 			
 	}

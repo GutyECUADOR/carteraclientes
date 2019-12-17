@@ -31,8 +31,7 @@
 
     <!-- Custom styles for this template -->
     <link href="<?php echo base_url()?>assets/css/dashboard.css" rel="stylesheet">
-  <style type="text/css">/* Chart.js */
-@-webkit-keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}@keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}.chartjs-render-monitor{-webkit-animation:chartjs-render-animation 0.001s;animation:chartjs-render-animation 0.001s;}</style></head>
+  
   <body>
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
     <a class="navbar-brand col-sm-3 col-md-2 mr-0">
@@ -79,55 +78,48 @@
       </div>
 
       <div class="row">
-        <div class="col-md-4 order-md-2 mb-4">
-          <h4 class="d-flex justify-content-between align-items-center mb-3">
-            <span class="text-muted">Compras realizadas</span>
-           
-          </h4>
-          <ul class="list-group mb-3">
-            
-            <li class="list-group-item d-flex justify-content-between bg-light">
-              <div class="text-success">
-                <h6 class="my-0">Promo code</h6>
-                <small>EXAMPLECODE</small>
-              </div>
-              <span class="text-success">-$5</span>
-            </li>
-           
-          </ul>
-
-         
-        </div>
-        <div class="col-md-8 order-md-1">
+        
+        <div class="col-md-10 order-md-1 offset-md-1">
           <h4 class="mb-3">Registro de Nuevo Cliente</h4>
           <form>
             <div class="mb-3">
                 <label for="username">Asesor KAO</label>
                 <div class="input-group">
                   
-                  <input type="text" class="form-control" id="username" placeholder="Cedula del Asesor" required="">
+                  <input type="text" class="form-control" id="asesor" placeholder="Cedula del Asesor" required="">
                   <div class="input-group-prepend">
-                    <span class="input-group-text">Sin identificar</span>
+                    <span id="asesorNombre" class="input-group-text">Sin identificar</span>
                   </div>
                 </div>
               </div>
 
             <div class="row">
-              <div class="col-md-6 mb-3">
-                <label>Nombres y apellidos</label>
-                <input type="text" class="form-control" id="nombreCliente" placeholder="" maxlength="50" required="">
+              <div class="col-md-4 mb-3">
+                <label>Cedula del Cliente</label>
+                <input type="text" class="form-control" id="clienteCI" placeholder="170000000000" required="">
                 
               </div>
+              <div class="col-md-4 mb-3">
+                <label>Apellidos</label>
+                <input type="text" class="form-control" id="apellidos" placeholder="Apellidos" required="">
+                
+              </div>
+              <div class="col-md-4 mb-3">
+                <label>Nombres</label>
+                <input type="text" class="form-control" id="nombres" placeholder="Nombres" required="">
+              </div>
+            </div>  
+
+            <div class="row">
               <div class="col-md-6 mb-3">
-                <label for="lastName">Fecha Nacimiento <span class="text-muted">(Optional)</span></label>
+              <label for="email">Email </label>
+                <input type="email" class="form-control" id="clienteEmail" placeholder="email@ejemplo.com" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label>Fecha Nacimiento <span class="text-muted">(Optional)</span></label>
                 <input type="date" class="form-control" id="clienteFecha">
                 
               </div>
-            </div>
-
-            <div class="mb-3">
-              <label for="email">Email </label>
-              <input type="email" class="form-control" id="clienteEmail" placeholder="email@ejemplo.com" required>
             </div>
 
             <div class="row">
