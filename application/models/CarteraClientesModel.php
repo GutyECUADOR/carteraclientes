@@ -19,4 +19,10 @@ class CarteraClientesModel extends CI_Model {
         
     }
 
+    public function getMarcas() {
+		$query = $this->empresa_db->get('INV_MARCAS');
+		$resultSet = $query->result_array();
+		return $resultSet;
+    }
+
 }

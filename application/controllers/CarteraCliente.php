@@ -17,12 +17,12 @@ class CarteraCliente extends CI_Controller {
 	public function index(){
 
 		if ($this->session->userdata('logged_in')) { 
-				$arraybodegas = $this->getbodegas();
-				$this->load->view('carteraclientes_view', compact('arraybodegas'));
+				$marcasArray = $this->CarteraClientesModel->getMarcas();
+				$this->load->view('carteraclientes_view', compact('marcasArray'));
 				
 			}else{
-				$databasesArray = $this->usuario->getAllDataBaseList();
-				$this->load->view('login', compact('databasesArray'));
+				$marcasArray = $this->CarteraClientesModel->getMarcas();
+				$this->load->view('login', compact('marcasArray'));
 		}
 			
 	}

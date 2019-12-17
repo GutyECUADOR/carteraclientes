@@ -1,3 +1,7 @@
+<?php
+
+?>
+
 <!DOCTYPE html>
 <!-- saved from url=(0014)about:internet -->
 <html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -6,10 +10,8 @@
     <title>Dashboard</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="<?php echo base_url()?>assets/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="<?php echo base_url()?>assets/css/bootstrap.min.css" rel="stylesheet">
 
-    
-    
     <style>
       .bd-placeholder-img {
         font-size: 1.125rem;
@@ -113,28 +115,28 @@
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label>Nombres y apellidos</label>
-                <input type="text" class="form-control" id="firstName" placeholder="" value="" required="">
+                <input type="text" class="form-control" id="nombreCliente" placeholder="" maxlength="50" required="">
                 
               </div>
               <div class="col-md-6 mb-3">
                 <label for="lastName">Fecha Nacimiento <span class="text-muted">(Optional)</span></label>
-                <input type="date" class="form-control" id="lastName" placeholder="" value="">
+                <input type="date" class="form-control" id="clienteFecha">
                 
               </div>
             </div>
 
             <div class="mb-3">
               <label for="email">Email </label>
-              <input type="email" class="form-control" id="email" placeholder="email@ejemplo.com" required>
+              <input type="email" class="form-control" id="clienteEmail" placeholder="email@ejemplo.com" required>
             </div>
 
             <div class="row">
               <div class="col-md-4 mb-3">
                 <label>Estado Civil</label>
-                <select class="custom-select d-block w-100" id="estadocivil" required="">
+                <select class="custom-select d-block w-100" id="clienteEstadoCivil" required="">
                   <option value="">Seleccione</option>
-                  <option>Soltero/a</option>
-                  <option>Casado/a</option>
+                  <option value="SOL">Soltero/a</option>
+                  <option value="CAS">Casado/a</option>
                 </select>
                 <div class="invalid-feedback">
                   Please select a valid country.
@@ -142,18 +144,18 @@
               </div>
               <div class="col-md-4 mb-3">
                 <label>Numero de Hijos</label>
-                <select class="custom-select d-block w-100" id="numhijos" required="">
+                <select class="custom-select d-block w-100" id="clienteHijos" required="">
                   <option value="">Seleccione</option>
-                  <option>0</option>
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3 o mas</option>
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3+">3 o mas</option>
                 </select>
                 
               </div>
               <div class="col-md-4 mb-3">
                 <label>Sexo</label>
-                <select class="custom-select d-block w-100" id="deporte" required="">
+                <select class="custom-select d-block w-100" id="sexo" required="">
                   <option value="">Seleccione</option>
                   <option>Masculino</option>
                   <option>Femenino</option>
@@ -165,11 +167,11 @@
               <label>Deporte que mas practica</label>
                 <select class="custom-select d-block w-100" id="deporte" required="">
                   <option value="">Seleccione</option>
-                  <option>Futbol</option>
-                  <option>Tenis</option>
-                  <option>Basket</option>
-                  <option>Natacion</option>
-                  <option>Ciclismo</option>
+                  <option value="FUT">Futbol</option>
+                  <option value="TEN">Tenis</option>
+                  <option value="BAS">Basket</option>
+                  <option value="NAT">Natacion</option>
+                  <option value="CIC">Ciclismo</option>
                 </select>
             </div>
 
@@ -180,7 +182,16 @@
            
             <div class="mb-3">
               <label>Preferencias de Marca</label>
-              <input type="text" class="form-control" id="preferenciaMarca" required>
+              <select class="custom-select d-block w-100" id="marca" required="">
+                  <option value="">Seleccione</option>
+                  <?php 
+                        foreach ($marcasArray as $row) {
+                          $codigo = $row['CODIGO']; 
+                          $detalle = $row['NOMBRE']; 
+                          echo "<option value='$codigo'>$detalle</option>";
+                        }
+                    ?>
+                </select>
             </div>
            
 
