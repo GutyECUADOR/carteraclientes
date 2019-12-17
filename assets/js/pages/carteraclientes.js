@@ -169,50 +169,17 @@ $(function() {
         }
     }
 
-    // ON Ready
-    $('.input-group.date').datepicker({
-        todayBtn: "linked",
-        keyboardNavigation: false,
-        forceParse: false,
-        autoclose: true,
-        format: "yyyy-mm-dd",
-        language: "es",
-        todayHighlight: true
-    });
-
     // Events and Actions
-   
-    let btnBuscar = $('#btnSearch');
-    btnBuscar.click(function (event) {
-        event.preventDefault();
 
-        let input = $('#txtSearch').val();
-        let dbcode = $('#selectEmpresa').val();
-        console.log(input)
-        
-
-        if (input.length <= 0) {
-            toastr.error('Indique parametros de busqueda', 'Atencion', {timeOut: 2000});
-            return;
-        }
-
-        app.searchFacturas(input, dbcode);
-
-    })
-
-    let registerForm = $('#registerticket');
+    let registerForm = $('#registerForm');
     registerForm.submit(function (event) {
         event.preventDefault();
 
-        let bodega = $('#bodega_factura_hidden').val();
-        let empresa = $('#selectEmpresa').val();
-
-        let data = registerForm.serializeArray();
-        data.push({name: 'bodega', value:bodega});
-        data.push({name: 'empresa', value:empresa});
+        let data = registerForm.serializeArray();        
+        console.log(data);
 
         $.ajax({
-            url: 'ticket/register',
+            url: 'carteracliente/register',
             method: 'POST',
             data: data,
 
@@ -223,6 +190,7 @@ $(function() {
                 console.log(data);
                
                 if (responseJSON.error == false) {
+                    
                     toastr.success(responseJSON.message + 'ID de registro: ' + responseJSON.nuevo_id, 'Realizado', {timeOut: 5000});
                     registerForm.trigger("reset");
                 }else if (responseJSON.error == true){

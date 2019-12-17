@@ -25,4 +25,17 @@ class CarteraClientesModel extends CI_Model {
 		return $resultSet;
     }
 
+    public function generaNewCodigo() {
+        $query = $this->wssp_db->query("SELECT 'CLI'+RIGHT('000000'+ISNULL(CONVERT (Varchar , (SELECT COUNT(*)+1 FROM dbo.carteracliente_nuevos)),''),6) as codigo");
+        $resultset = $query->row();
+        return $resultset->codigo;
+    }
+
+    public function saveCliente($data) {
+       
+        $this->wssp_db->insert('carteracliente_nuevos', $data);
+        return $this->wssp_db->insert_id();
+    }
+
+
 }

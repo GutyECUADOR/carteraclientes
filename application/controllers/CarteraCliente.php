@@ -31,45 +31,52 @@ class CarteraCliente extends CI_Controller {
 	public function register() {
 		
 		if (!empty($_POST)) {
-			
-			$empresa = strtoupper($this->input->post('empresa'));
-            $bodega = strtoupper($this->input->post('bodega'));
-			$facturaID = strtoupper($this->input->post('facturaID'));
-			$referencia = $this->input->post('referencia');
-			$titulo = $this->input->post('titulo');
-			$problema = $this->input->post('txt_problema');
-			$procedimiento = $this->input->post('txt_procedimiento');
-			$autorizado = $this->input->post('txt_autorizado');
-			$solucion = $this->input->post('txt_solucion');
-			
+			$asesor = $this->input->post('asesor');
+			$clienteCI = $this->input->post('clienteCI');
+			$apellidos = $this->input->post('apellidos');
+			$nombres = $this->input->post('nombres');
+			$clienteEmail = $this->input->post('clienteEmail');
+			$clienteFecha = $this->input->post('clienteFecha');
+			$clienteEstadoCivil = $this->input->post('clienteEstadoCivil');
+			$clienteHijos = $this->input->post('clienteHijos');
+			$sexo = $this->input->post('sexo');
+			$deporte = $this->input->post('deporte');
+			$tipoinformacion = $this->input->post('tipoinformacion');
+			$marca = $this->input->post('marca');
+			$comentarios = $this->input->post('comentarios');
 		
-            // Checking if everything is there
-            if ($bodega && $facturaID && $referencia &&  $titulo && $problema && $procedimiento ) {
+			/*Sesion data */
+			$sessionUSER = $this->session->userdata('cedula');
 
-				$ticket = $this->newticket();
-				
-                $data = array(
-					'codigo' => $ticket,
-					'empresa' => $empresa,
-					'bodega' => $bodega,
-					'facturaID' => $facturaID,
-					'encargadoID' => $this->session->userdata('cedula'),
+            // Checking important data
+            if ($comentarios) {
+
+				$codigo = $this->newCodigo(); //Generar un nuevo codigo personalizado
+			
+				$data = array(
+					'codigo' => $codigo,
 					'fecha' => date('Ymd'),
-					'referencia' => $referencia,
-					'titulo' => $titulo,
-					'procedimiento' => $procedimiento,
-					'autorizado' => $autorizado,
-					'problema' => $problema,
-					'solucion' => $solucion,
-					'estado' => 0
+					'asesor' => $sessionUSER,
+					'clienteCI' => $clienteCI,
+					'cliente' => $apellidos.' '.$nombres,
+					'clienteFecha' => $clienteFecha,
+					'clienteEmail' => $clienteEmail,
+					'clienteEstadoCivil' => $clienteEstadoCivil,
+					'clienteHijos' => $clienteHijos,
+					'sexo' => $sexo,
+					'deporte' => $deporte,
+					'tipoinformacion' => $tipoinformacion,
+					'marca' => $marca,
+					'comentarios' => $comentarios,
                 );
                 
-                if ($ID = $this->usuario->addticket($data)) {
+                if ($ID = $this->CarteraClientesModel->saveCliente($data)) {
 					
 					$response = array(
 						'error'     => FALSE, 
-						'message'     => 'Registro exitoso. ', 
-						'nuevo_id'  => $ID
+						'message'     => 'Registro exitoso.', 
+						'nuevo_id'  => $ID,
+						'registro'	=> $data
 						);
               
 					echo json_encode($response);
@@ -229,8 +236,8 @@ class CarteraCliente extends CI_Controller {
         echo json_encode(array('data' => $resultSet));
 	}
 
-	public function newticket(){
-		$resultSet = $this->usuario->generaticket();
+	public function newCodigo(){
+		$resultSet = $this->CarteraClientesModel->generaNewCodigo();
 		return $resultSet;
 	}
 	

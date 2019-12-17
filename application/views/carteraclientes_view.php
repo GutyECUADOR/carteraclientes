@@ -12,25 +12,12 @@
     <!-- Bootstrap core CSS -->
     <link href="<?php echo base_url()?>assets/css/bootstrap.min.css" rel="stylesheet">
 
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-    </style>
-
+   
     <!-- Custom styles for this template -->
     <link href="<?php echo base_url()?>assets/css/dashboard.css" rel="stylesheet">
+
+    <!-- Plugins style -->
+    <link href="<?php echo base_url()?>assets/css/plugins/toastr/toastr.min.css" rel="stylesheet">
   
   <body>
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
@@ -81,12 +68,12 @@
         
         <div class="col-md-10 order-md-1 offset-md-1">
           <h4 class="mb-3">Registro de Nuevo Cliente</h4>
-          <form>
+          <form id="registerForm">
             <div class="mb-3">
                 <label for="username">Asesor KAO</label>
                 <div class="input-group">
                   
-                  <input type="text" class="form-control" id="asesor" placeholder="Cedula del Asesor" required="">
+                  <input type="text" class="form-control" id="asesor" name="asesor" placeholder="Cedula del Asesor" required="">
                   <div class="input-group-prepend">
                     <span id="asesorNombre" class="input-group-text">Sin identificar</span>
                   </div>
@@ -96,28 +83,28 @@
             <div class="row">
               <div class="col-md-4 mb-3">
                 <label>Cedula del Cliente</label>
-                <input type="text" class="form-control" id="clienteCI" placeholder="170000000000" required="">
+                <input type="text" class="form-control" id="clienteCI" name="clienteCI" placeholder="170000000000" required="">
                 
               </div>
               <div class="col-md-4 mb-3">
                 <label>Apellidos</label>
-                <input type="text" class="form-control" id="apellidos" placeholder="Apellidos" required="">
+                <input type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Apellidos" required="">
                 
               </div>
               <div class="col-md-4 mb-3">
                 <label>Nombres</label>
-                <input type="text" class="form-control" id="nombres" placeholder="Nombres" required="">
+                <input type="text" class="form-control" id="nombres" name="nombres" placeholder="Nombres" required="">
               </div>
             </div>  
 
             <div class="row">
               <div class="col-md-6 mb-3">
               <label for="email">Email </label>
-                <input type="email" class="form-control" id="clienteEmail" placeholder="email@ejemplo.com" required>
+                <input type="email" class="form-control" id="clienteEmail" name="clienteEmail" placeholder="email@ejemplo.com" required>
               </div>
               <div class="col-md-6 mb-3">
                 <label>Fecha Nacimiento <span class="text-muted">(Optional)</span></label>
-                <input type="date" class="form-control" id="clienteFecha">
+                <input type="date" class="form-control" id="clienteFecha" name="clienteFecha">
                 
               </div>
             </div>
@@ -125,7 +112,7 @@
             <div class="row">
               <div class="col-md-4 mb-3">
                 <label>Estado Civil</label>
-                <select class="custom-select d-block w-100" id="clienteEstadoCivil" required="">
+                <select class="custom-select d-block w-100" id="clienteEstadoCivil" name="clienteEstadoCivil" required="">
                   <option value="">Seleccione</option>
                   <option value="SOL">Soltero/a</option>
                   <option value="CAS">Casado/a</option>
@@ -136,7 +123,7 @@
               </div>
               <div class="col-md-4 mb-3">
                 <label>Numero de Hijos</label>
-                <select class="custom-select d-block w-100" id="clienteHijos" required="">
+                <select class="custom-select d-block w-100" id="clienteHijos" name="clienteHijos" required="">
                   <option value="">Seleccione</option>
                   <option value="0">0</option>
                   <option value="1">1</option>
@@ -147,17 +134,17 @@
               </div>
               <div class="col-md-4 mb-3">
                 <label>Sexo</label>
-                <select class="custom-select d-block w-100" id="sexo" required="">
+                <select class="custom-select d-block w-100" id="sexo" name="sexo" required="">
                   <option value="">Seleccione</option>
-                  <option>Masculino</option>
-                  <option>Femenino</option>
+                  <option value="M">Masculino</option>
+                  <option value="F">Femenino</option>
                 </select>
               </div>
             </div>
 
             <div class="mb-3">
               <label>Deporte que mas practica</label>
-                <select class="custom-select d-block w-100" id="deporte" required="">
+                <select class="custom-select d-block w-100" id="deporte" name="deporte" required="">
                   <option value="">Seleccione</option>
                   <option value="FUT">Futbol</option>
                   <option value="TEN">Tenis</option>
@@ -169,12 +156,12 @@
 
             <div class="mb-3">
               <label>Informacion que le gustaria recibir</label>
-              <input type="text" class="form-control" id="tipoinformacion" required>
+              <input type="text" class="form-control" id="tipoinformacion" name="tipoinformacion" required>
             </div>
            
             <div class="mb-3">
               <label>Preferencias de Marca</label>
-              <select class="custom-select d-block w-100" id="marca" required="">
+              <select class="custom-select d-block w-100" id="marca" name="marca" required="">
                   <option value="">Seleccione</option>
                   <?php 
                         foreach ($marcasArray as $row) {
@@ -189,7 +176,7 @@
 
             <div class="mb-3">
               <label>Comentarios u Observaciones</label>
-              <textarea class="form-control" id="comentarios" rows="3"></textarea>
+              <textarea class="form-control" id="comentarios" name="comentarios" rows="3"></textarea>
             </div>
            
 
@@ -206,4 +193,17 @@
   </div>
 </div>
 
-</body></html>
+<!-- Mainly scripts -->
+<script src="<?php echo base_url()?>assets/js/jquery-3.4.1.min.js"></script>
+<script src="<?php echo base_url()?>assets/js/bootstrap.min.js"></script>
+
+<!-- Toastr script -->
+<script src="<?php echo base_url()?>assets/js/plugins/toastr/toastr.min.js"></script>
+
+<!-- Page-Level Scripts -->
+<script src="<?php echo base_url()?>assets/js/pages/carteraclientes.js"></script>
+
+
+
+</body>
+</html>
