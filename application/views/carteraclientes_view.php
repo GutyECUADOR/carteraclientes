@@ -1,5 +1,5 @@
 <?php
-
+$sessionUSERNAME = $this->session->userdata('nombreusuario');
 ?>
 
 <!DOCTYPE html>
@@ -38,6 +38,9 @@
   <div class="row">
     <nav class="col-md-2 d-none d-md-block bg-light sidebar">
       <div class="sidebar-sticky">
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1">
+          <span>Usuario: <?php echo $sessionUSERNAME?></span>
+        </h6>
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
           <span>Formularios</span>
           <a class="d-flex align-items-center text-muted" href="#" aria-label="Add a new report">
@@ -49,7 +52,7 @@
           <li class="nav-item">
             <a class="nav-link" href="#">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-              Cartera Clientes
+              Cartera Clientes 
             </a>
           </li>
         </ul>
@@ -60,7 +63,7 @@
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
      
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Cartera Clientes</h1>
+        <h3>Cartera Clientes </h3>
        
       </div>
 
@@ -69,21 +72,11 @@
         <div class="col-md-10 order-md-1 offset-md-1">
           <h4 class="mb-3">Registro de Nuevo Cliente</h4>
           <form id="registerForm">
-            <div class="mb-3">
-                <label for="username">Asesor KAO</label>
-                <div class="input-group">
-                  
-                  <input type="text" class="form-control" id="asesor" name="asesor" placeholder="Cedula del Asesor" required="">
-                  <div class="input-group-prepend">
-                    <span id="asesorNombre" class="input-group-text">Sin identificar</span>
-                  </div>
-                </div>
-              </div>
-
+           
             <div class="row">
               <div class="col-md-4 mb-3">
                 <label>Cedula del Cliente</label>
-                <input type="text" class="form-control" id="clienteCI" name="clienteCI" placeholder="170000000000" required="">
+                <input type="text" class="form-control" id="clienteCI" name="clienteCI" placeholder="170000000000" minlength="10" maxlength="13" required="">
                 
               </div>
               <div class="col-md-4 mb-3">
@@ -156,7 +149,7 @@
 
             <div class="mb-3">
               <label>Informacion que le gustaria recibir</label>
-              <input type="text" class="form-control" id="tipoinformacion" name="tipoinformacion" required>
+              <input type="text" class="form-control" id="tipoinformacion" name="tipoinformacion"  maxlength="100" required>
             </div>
            
             <div class="mb-3">
@@ -176,7 +169,7 @@
 
             <div class="mb-3">
               <label>Comentarios u Observaciones</label>
-              <textarea class="form-control" id="comentarios" name="comentarios" rows="3"></textarea>
+              <textarea class="form-control" id="comentarios" name="comentarios"  maxlength="200" rows="3"></textarea>
             </div>
            
 

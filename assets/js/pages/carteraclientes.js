@@ -55,117 +55,104 @@ $(function() {
             });
     
         },
-        showFactura: function (facturaData, movimientos) {
-        
-            $('#ID_facura').html(facturaData.ID);
-            $('#num_factura').html(facturaData.NUMERO);
-            $('#fecha_factura').html(facturaData.FECHA);
-            $('#bodega_factura_hidden').val(facturaData.codBodega);
-            $('#vendedor_factura').html('('+facturaData.codVendedor +') '+ facturaData.nombreVendedor);
-            $('#bodega_factura').html(facturaData.nombreBodega);
-            $('#ruc_factura').html(facturaData.RUCCliente);
-            $('#nombreCliente_factura').html(facturaData.nombreCliente);
-            $('#div_checkticket').html(app.checkExistTicket(facturaData.ticket));
-
-
-            $('#table_VENMOV').html('');
+        validaCedula: function (cedula) {
            
-            movimientos.forEach(row => {
-                
-                let rowHTML = `
-                    <tr>
-                        <td>
-                            ${ row.CODIGO  }
-                        </td>
-                        <td>
-                            ${ row.Nombre }
-                        </td>
-                        <td>
-                            ${ row.CANTIDAD }
-                        </td>
-                        <td>
-                            ${ row.PRECIO}
-                        </td>
-                        <td>
-                            ${ row.DESCU }
-                         </td>
-                        <td>
-                         ${ row.IVA }
-                        </td>
-                        <td>
-                            ${ row.PRECIOTOT }
-                        </td>
-                       
-                    </tr>                   
-                        `;
-    
-                $('#table_VENMOV').append(rowHTML);
-    
-            });
-    
-          
-        },
-        searchFacturas: function (search, dbcode) {
-            $.ajax({
-                url: 'facturas/getfacturas',
-                method: 'GET',
-                data: {search: search, dbcode: dbcode},
-               
-                success: function(response) {
-                    console.log(response);
-                    let responseJSON = JSON.parse(response);
-                    console.log(responseJSON);
-                   
-                    if (!responseJSON.ERROR) {
-                        toastr.success('Busqueda finalizada', 'Realizado', {timeOut: 2000});
-                        app.showResults(responseJSON.data);
-                    }else{
-                        toastr.error('No se pudo completar la busqueda', 'Error', {timeOut: 2000});
-                    }
+            let cad = cedula.trim();
+            let total = 0;
+            let longitud = cad.length;
+            let longcheck = longitud - 1;
 
-                    
-                },
-                error: function(error) {
-                    alert('No se pudo completar la operación. #' + error.status + ' ' + error.statusText, '. Intentelo mas tarde.');
-                },
-                complete: function(data) {
-                    
-                }
-    
-            });
-        },
-        searchFacturaByID: function (ID, dbcode) {
-            $.ajax({
-                url: 'facturas/getfactura',
-                method: 'GET',
-                data: {ID: ID, dbcode: dbcode},
-               
-                success: function(response) {
-                    console.log(response);
-                    let responseJSON = JSON.parse(response);
-                    console.log(responseJSON);
-                    if (!responseJSON.ERROR) {
-                        app.showFactura(responseJSON.documento, responseJSON.movimientos);
-                    }else{
-                        console.log('No se pudo cargar la informacion de factura');
-                    }
-                    
-                },
-                error: function(error) {
-                    alert('No se pudo completar la operación. #' + error.status + ' ' + error.statusText, '. Intentelo mas tarde.');
-                },
-                complete: function(data) {
-                    
-                }
-    
-            });
-        },
-        checkExistTicket: function (ticketCODE) {
-            if (ticketCODE) {
-                return  `<span class="label label-warning">Atencion, se ha detectado que ya existe un ticket a esta factura: <strong>${ ticketCODE }</strong></span> `;
-            }else if( ticketCODE == null){
-                return '';
+            if (cedula.length >=13) {
+                return {
+                    validacion: true,
+                    message: 'El RUC es valido'
+                };
             }
+    
+            if (cad !== "" && longitud >=10 && longitud <=10){
+                for(i = 0; i < longcheck; i++){
+                if (i%2 === 0) {
+                    var aux = cad.charAt(i) * 2;
+                    if (aux > 9) aux -= 9;
+                    total += aux;
+                } else {
+                    total += parseInt(cad.charAt(i)); // parseInt o concatenará en lugar de sumar
+                }
+                }
+    
+                total = total % 10 ? 10 - total % 10 : 0;
+    
+                if (cad.charAt(longitud-1) == total) {
+                    return {
+                        validacion: true,
+                        message: 'La cedula es valida'
+                    };
+                }else{
+                    return {
+                        validacion: false,
+                        message: 'La cedula no es valida'
+                    };
+                }
+            }
+            
+        },
+        validaCedulaRUC: function (cedula) {
+           
+            if (typeof(cedula) == 'string' && cedula.length == 10 && /^\d+$/.test(cedula)) {
+                  var digitos = cedula.split('').map(Number);
+                  var codigo_provincia = digitos[0] * 10 + digitos[1];
+              
+                  if (codigo_provincia >= 1 && (codigo_provincia <= 24 || codigo_provincia == 30) && digitos[2] < 6) {
+              
+                  if (codigo_provincia >= 1 && (codigo_provincia <= 24 || codigo_provincia == 30)) {
+                    var digito_verificador = digitos.pop();
+              
+                    var digito_calculado = digitos.reduce(
+                      function (valorPrevio, valorActual, indice) {
+                        return valorPrevio - (valorActual * (2 - indice % 2)) % 9 - (valorActual == 9) * 9;
+                      }, 1000) % 10;
+                    return digito_calculado === digito_verificador;
+                    }
+                }
+                    return false;
+            }
+              
+        },
+        validaCedulaRUCPROPIA: function (cedula) {
+
+            if (cedula.length <= 13 && cedula.length >= 10){
+                const digitos = cedula.split('').map(Number);
+
+                if (digitos[2] > 6 || digitos[2] < 0 ) { //Validacion 3er digito
+                    return {
+                        validacion: false,
+                        message: 'El 3er digito no es valido'
+                    };
+                }
+
+                let suma = digitos.reduce((suma, NextNum)=>{
+                    
+                    return suma+NextNum;
+                })
+
+                console.log(suma);
+
+                return  {
+                    validacion: true,
+                    message: 'Cedula Válida'
+                };
+
+            }else{
+                return {
+                    validacion: false,
+                    message: 'Minimo 10 digitos y maximo 13'
+                };
+            }
+
+            
+
+
+
         }
     }
 
@@ -212,20 +199,25 @@ $(function() {
     })
 
 
-    let txt_facturaID = $('#facturaID');
-    txt_facturaID.change(function (event) {
+    let cedulaCI = $('#clienteCI');
+    cedulaCI.change(function (event) {
         event.preventDefault();
 
-        let ID = $(this).val();
-        let dbcode = $('#selectEmpresa').val();
-        
-        if (ID.length <= 0) {
-            toastr.warning('El codigo de la factura no puede ser nulo', 'Atencion', {timeOut: 2000});
-            return;
+        let cedula = $(this).val();
+        console.log(cedula);
+
+        let respuesta = app.validaCedula(cedula);
+        console.log(respuesta);
+
+        if (respuesta.validacion) {
+            toastr.success(respuesta.message, 'Atencion', {timeOut: 2000});
+        }else{
+            toastr.warning(respuesta.message, 'Atencion', {timeOut: 4000});
+            cedulaCI.val('');
         }
 
-        app.searchFacturaByID(ID, dbcode);
-
+        
+       
     })
 
 
