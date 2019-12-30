@@ -59,13 +59,26 @@
                         }
                     ?>
             </select>
+            <select class="form-control m-b" id="bodega" name="bodega" required="">
+                <option value="">Seleccione local por favor</option>
+                  
+            </select>
         </div>
         <label class="sr-only">Usuario</label>
         <input type="text" id="usuario" name="usuario" class="form-control" placeholder="Usuario" required autofocus>
-        <label class="sr-only">Contraseña</label>
-        <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña" required>
+        </br>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Ingresar</button>
         <p class="mt-5 mb-3 text-muted">Derechos reservados &copy; <?php echo date('Y')?></small></p>
     </form>
+
+    <!-- Mainly scripts -->
+    <script src="<?php echo base_url()?>assets/js/jquery-3.4.1.min.js"></script>
+    <script src="<?php echo base_url()?>assets/js/bootstrap.min.js"></script>
+
+    <!-- Toastr script -->
+    <script src="<?php echo base_url()?>assets/js/plugins/toastr/toastr.min.js"></script>
+
+    <!-- Page-Level Scripts -->
+    <script src="<?php echo base_url()?>assets/js/pages/login.js"></script>
 </body>
 </html>

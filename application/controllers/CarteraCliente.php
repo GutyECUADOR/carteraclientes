@@ -47,6 +47,8 @@ class CarteraCliente extends CI_Controller {
 		
 			/*Sesion data */
 			$sessionUSER = $this->session->userdata('cedula');
+			$codedatabaseUSER = $this->session->userdata('codedatabase');
+			$codebodegaUSER = $this->session->userdata('codebodega');
 
             // Checking important data
             if ($comentarios) {
@@ -56,6 +58,8 @@ class CarteraCliente extends CI_Controller {
 				$data = array(
 					'codigo' => $codigo,
 					'fecha' => date('Ymd'),
+					'empresa' => $codedatabaseUSER,
+					'bodega' => $codebodegaUSER,
 					'asesor' => $sessionUSER,
 					'clienteCI' => $clienteCI,
 					'cliente' => $apellidos.' '.$nombres,

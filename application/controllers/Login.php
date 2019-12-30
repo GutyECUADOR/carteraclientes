@@ -22,13 +22,15 @@ class Login extends CI_Controller {
 			$usuario = $this->input->post('usuario');
 			$password = $this->input->post('password');
 			$codedatabase = $this->input->post('tipoinstitucion');
+			$codebodega = $this->input->post('bodega');
 
 			$dataDB = $this->usuario->checklogin($usuario, $password);
 
-			if ($usuario==trim($dataDB->Cedula) && $password==trim($dataDB->Clave)) {
+			if ($usuario==trim($dataDB->Cedula)) {
 				$newdata = array(
 					'usercode'  => $dataDB->Codigo,
 					'codedatabase' => $codedatabase,
+					'codebodega' => $codebodega,
 					'cedula' => $dataDB->Cedula,
 					'nombreusuario'  => $dataDB->Nombre . $dataDB->Apellido,
 					'user_role'     => trim($dataDB->CodDpto),
@@ -45,6 +47,12 @@ class Login extends CI_Controller {
 		}else {
 			redirect('login');	
 		}
+	}
+
+	public function getLocales(){
+		$db_code = $this->input->get('db_code');
+		$resultSet = $this->usuario->getAllLocalesByEmpresa($db_code);
+        echo json_encode($resultSet);
 	}
 
 	public function logout(){
