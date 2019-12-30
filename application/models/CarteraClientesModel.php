@@ -38,4 +38,19 @@ class CarteraClientesModel extends CI_Model {
     }
 
 
+    public function getCliente($RUC) {
+		$query = $this->empresa_db->query("
+        SELECT TOP 1 
+            RUC, NOMBRE, FECHAALTA 
+        FROM 
+            dbo.COB_CLIENTES 
+        WHERE RUC = '$RUC'    
+       
+        ");
+		return $query->row();
+	
+       
+    }
+
+
 }

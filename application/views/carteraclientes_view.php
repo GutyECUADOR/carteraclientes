@@ -97,7 +97,7 @@ $sessionUSERNAME = $this->session->userdata('nombreusuario');
               </div>
               <div class="col-md-6 mb-3">
                 <label>Fecha Nacimiento <span class="text-muted">(Optional)</span></label>
-                <input type="date" class="form-control" id="clienteFecha" name="clienteFecha">
+                <input type="date" class="form-control" id="clienteFecha" name="clienteFecha" value="<?php echo date('Y-m-d')?>">
                 
               </div>
             </div>
@@ -149,7 +149,15 @@ $sessionUSERNAME = $this->session->userdata('nombreusuario');
 
             <div class="mb-3">
               <label>Informacion que le gustaria recibir</label>
-              <input type="text" class="form-control" id="tipoinformacion" name="tipoinformacion"  maxlength="100" required>
+              <select class="custom-select d-block w-100" id="tipoinformacion" name="tipoinformacion" required="">
+                  <option value="">Seleccione</option>
+                  <option >Promociones</option>
+                  <option >Productos nuevos</option>
+                  <option >Eventos y Actividades deportivas</option>
+                  <option >Sorteos</option>
+                  <option >Demostraciones</option>
+                </select>
+           
             </div>
            
             <div class="mb-3">

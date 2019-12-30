@@ -247,13 +247,13 @@ class CarteraCliente extends CI_Controller {
         return $resultSet;
     }
 	
-	public function chengeStatusTicket($status=0){
-
-		$resultSet = $this->usuario->chengeStatusTicket($status);
-		
+	public function verificaCliente(){
+		$RUC = $this->input->get('RUC');
+		$resultSet = $this->CarteraClientesModel->getCliente($RUC);
 		echo json_encode($resultSet);
 			
 	}
+	
 	
 	
 

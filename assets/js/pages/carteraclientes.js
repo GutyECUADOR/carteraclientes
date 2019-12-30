@@ -93,6 +93,11 @@ $(function() {
                         message: 'La cedula no es valida'
                     };
                 }
+            }else{
+                return {
+                    validacion: false,
+                    message: 'Minimo 10 digitos'
+                };
             }
             
         },
@@ -153,6 +158,34 @@ $(function() {
 
 
 
+        },
+        validaCliente: function (RUC) {
+          
+            $.ajax({
+                url: 'carteracliente/verificaCliente',
+                method: 'GET',
+                data: { RUC: RUC },
+                
+                success: function(response) {
+                    console.log(response);
+                    let responseJSON = JSON.parse(response);
+                    console.log(responseJSON);
+                    if (responseJSON) {
+                        toastr.warning(`El cliente ${responseJSON.NOMBRE} con cedula ${responseJSON.RUC} ya existe`, 'Atencion', {timeOut: 5000});
+                        cedulaCI.val('');
+                       
+                    }else{
+                        toastr.success(`La cedula o RUC ${RUC}, aun no esta registrado`, 'Atencion', {timeOut: 5000});
+                    }
+            
+                    
+                },
+                error: function(error) {
+                    alert('No se pudo completar la operación. #' + error.status + ' ' + error.statusText, '. Intentelo mas tarde.');
+                },
+              
+            });
+           
         }
     }
 
@@ -178,7 +211,7 @@ $(function() {
                
                 if (responseJSON.error == false) {
                     
-                    toastr.success(responseJSON.message + 'ID de registro: ' + responseJSON.nuevo_id, 'Realizado', {timeOut: 5000});
+                    toastr.success(responseJSON.message + ' ID de registro: ' + responseJSON.nuevo_id, 'Realizado', {timeOut: 5000});
                     registerForm.trigger("reset");
                 }else if (responseJSON.error == true){
                     toastr.error(responseJSON.message, 'Error', {timeOut: 5000});
@@ -194,7 +227,7 @@ $(function() {
                 $('#modal_new_ticket').modal('hide');
             }
 
-            });
+        });
 
     })
 
@@ -211,11 +244,14 @@ $(function() {
 
         if (respuesta.validacion) {
             toastr.success(respuesta.message, 'Atencion', {timeOut: 2000});
+            app.validaCliente(cedula);
+           
         }else{
             toastr.warning(respuesta.message, 'Atencion', {timeOut: 4000});
             cedulaCI.val('');
         }
 
+       
         
        
     })

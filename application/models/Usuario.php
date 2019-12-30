@@ -193,26 +193,7 @@ class Usuario extends CI_Model {
         return $resultset->ticket;
     }
 
-    public function chengeStatusTicket($status=0){
+    
 
-		if ($this->session->userdata('user_role')=='SVC' || $this->session->userdata('user_role')=='ADM') { 
-			$id = $this->input->get('id');
-			$this->wssp_db->where('codigo', $id);
-			$this->wssp_db->update('tickets_serviciocliente', array('estado'=> $status));
-			
-			$affected_rows = $this->wssp_db->affected_rows();
-		   
-            return $response = array('error'=> FALSE,
-							'message'=> 'Se ha actualizado '.$affected_rows. ' registro(s) correctamente', 
-							'affected_rows' => $affected_rows);	
-		}else{
-            return $response = array('error'=> TRUE,
-							'message'=> 'No posee suficientes permisos para realizar esta accion', 
-                            'affected_rows' => 0,
-                            'role' => $this->session->userdata('user_role')
-                        );	
-        }
-		
-	}
-
+    
 }
