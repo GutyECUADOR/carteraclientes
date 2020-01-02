@@ -31,6 +31,10 @@ class CarteraCliente extends CI_Controller {
 	public function register() {
 		
 		if (!empty($_POST)) {
+			$isfacturado = $this->input->post('isfacturado');
+			$isNuevoCliente = $this->input->post('isNuevoCliente');
+			
+			$asesor = $this->input->post('asesor');
 			$asesor = $this->input->post('asesor');
 			$clienteCI = $this->input->post('clienteCI');
 			$apellidos = $this->input->post('apellidos');
@@ -49,17 +53,18 @@ class CarteraCliente extends CI_Controller {
 			$sessionUSER = $this->session->userdata('cedula');
 			$codedatabaseUSER = $this->session->userdata('codedatabase');
 			$codebodegaUSER = $this->session->userdata('codebodega');
+			$codigo = $this->newCodigo(); //Generar un nuevo codigo personalizado
 
             // Checking important data
-            if ($comentarios) {
+            if ($clienteCI && $codigo && $codedatabaseUSER && $codebodegaUSER ) {
 
-				$codigo = $this->newCodigo(); //Generar un nuevo codigo personalizado
-			
 				$data = array(
 					'codigo' => $codigo,
 					'fecha' => date('Ymd'),
 					'empresa' => $codedatabaseUSER,
 					'bodega' => $codebodegaUSER,
+					'isfacturado' => $isfacturado,
+					'isNuevoCliente' => $isNuevoCliente,
 					'asesor' => $sessionUSER,
 					'clienteCI' => $clienteCI,
 					'cliente' => $apellidos.' '.$nombres,

@@ -171,11 +171,11 @@ $(function() {
                     let responseJSON = JSON.parse(response);
                     console.log(responseJSON);
                     if (responseJSON) {
-                        toastr.warning(`El cliente ${responseJSON.NOMBRE} con cedula ${responseJSON.RUC} ya existe`, 'Atencion', {timeOut: 5000});
-                        cedulaCI.val('');
-                       
+                        toastr.warning(`El cliente ${responseJSON.NOMBRE} con cedula ${responseJSON.RUC} ya existe en Winfenix`, 'Atencion', {timeOut: 5000});
+                        isNuevoCliente = false;
                     }else{
-                        toastr.success(`La cedula o RUC ${RUC}, aun no esta registrado`, 'Atencion', {timeOut: 5000});
+                        toastr.success(`La cedula o RUC ${RUC}, aun no esta registrado en Winfenix`, 'Atencion', {timeOut: 5000});
+                        isNuevoCliente = true;
                     }
             
                     
@@ -189,13 +189,18 @@ $(function() {
         }
     }
 
+    // Global Variables
+    var isNuevoCliente = false;
+
     // Events and Actions
 
     let registerForm = $('#registerForm');
     registerForm.submit(function (event) {
         event.preventDefault();
 
-        let data = registerForm.serializeArray();        
+        let data = registerForm.serializeArray(); 
+        
+        data.push({ name: "isNuevoCliente", value: isNuevoCliente });       
         console.log(data);
 
         $.ajax({
@@ -221,7 +226,7 @@ $(function() {
                
             },
             error: function(error) {
-                alert('No se pudo completar la operación. #' + error.status + ' ' + error.statusText, '. Intentelo mas tarde.');
+                alert('No se pudo completar la operación, puede estar intentando registrar un cliente que ya existe en la tabla de cartera clientes WSSP. #' + error.status + ' ' + error.statusText, '. Intentelo mas tarde.');
             },
             complete: function(data) {
                 $('#modal_new_ticket').modal('hide');

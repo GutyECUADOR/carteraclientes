@@ -71,7 +71,7 @@ $sessionUSERNAME = $this->session->userdata('nombreusuario');
         
         <div class="col-md-10 order-md-1 offset-md-1">
           <h4 class="mb-3">Registro de Nuevo Cliente</h4>
-          <form id="registerForm">
+          <form id="registerForm" autocomplete="off">
            
             <div class="row">
               <div class="col-md-4 mb-3">
@@ -172,6 +172,16 @@ $sessionUSERNAME = $this->session->userdata('nombreusuario');
                         }
                     ?>
                 </select>
+            </div>
+
+            <div class="mb-3">
+              <label>Se concreto la venta?</label>
+              <select class="custom-select d-block w-100" id="isfacturado" name="isfacturado" required="">
+                  <option value="">Seleccione</option>
+                  <option value="0" >No</option>
+                  <option value="1" >Si, se facturo en Winfenix</option>
+              </select>
+           
             </div>
            
 
