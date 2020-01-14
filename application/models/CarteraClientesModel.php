@@ -48,8 +48,24 @@ class CarteraClientesModel extends CI_Model {
        
         ");
 		return $query->row();
+    }
+
+    public function getClientesRegistrados($search='', $dbcode='') {
+
+        $this->empresa_db = $this->load->database($dbcode, TRUE);
+		$query = $this->empresa_db->query("
+        SELECT 
+            TOP 100
+            carteraClientes.*,
+            bodega.NOMBRE as BodegaName
+        FROM 
+            dbo.INV_BODEGAS AS Bodega
+        INNER JOIN 
+            KAO_wssp.dbo.carteracliente_nuevos as carteraClientes on carteraClientes.bodega COLLATE Modern_Spanish_CI_AS = Bodega.CODIGO
+        
+            ");
+		return $query->result_array();
 	
-       
     }
 
 

@@ -26,6 +26,26 @@ class CarteraCliente extends CI_Controller {
 		}
 			
 	}
+
+
+	public function lista(){
+		$resultSet = $this->CarteraClientesModel->getClientesRegistrados();
+		$this->load->view('carteraclientes_list_view', $resultSet);
+			
+	}
+
+	public function getTopClientes(){
+		$search = $this->input->get('search');
+		$dbcode = $this->input->get('dbcode');
+
+		if ($search && $dbcode) {
+			$resultSet = $this->CarteraClientesModel->getClientesRegistrados($search, $dbcode);
+        	echo json_encode(array('ERROR' => FALSE, 'data' => $resultSet));
+		}else{
+			echo json_encode(array('ERROR' => TRUE, 'data' => ''));
+		}
+		
+	}
 	
 
 	public function register() {

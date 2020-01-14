@@ -162,7 +162,7 @@ $(function() {
         validaCliente: function (RUC) {
           
             $.ajax({
-                url: 'carteracliente/verificaCliente',
+                url: 'verificaCliente',
                 method: 'GET',
                 data: { RUC: RUC },
                 
@@ -204,7 +204,7 @@ $(function() {
         console.log(data);
 
         $.ajax({
-            url: 'carteracliente/register',
+            url: 'register',
             method: 'POST',
             data: data,
 
