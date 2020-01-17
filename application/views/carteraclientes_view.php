@@ -98,11 +98,17 @@ $sessionUSERNAME = $this->session->userdata('nombreusuario');
             </div>  
 
             <div class="row">
-              <div class="col-md-6 mb-3">
+              <div class="col-md-4 mb-3">
               <label for="email">Email </label>
                 <input type="email" class="form-control" id="clienteEmail" name="clienteEmail" placeholder="email@ejemplo.com" required>
               </div>
-              <div class="col-md-6 mb-3">
+
+              <div class="col-md-4 mb-3">
+              <label for="telefono">Telefono </label>
+                <input type="text" class="form-control" id="clienteTelefono" name="clienteTelefono" required>
+              </div>
+
+              <div class="col-md-4 mb-3">
                 <label>Fecha Nacimiento <span class="text-muted">(Optional)</span></label>
                 <input type="date" class="form-control" id="clienteFecha" name="clienteFecha" value="<?php echo date('Y-m-d')?>">
                 

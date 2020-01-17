@@ -39,6 +39,9 @@ $(function() {
                             ${ row.cliente }
                          </td>
                          <td>
+                            ${ row.clienteTelefono }
+                        </td>
+                         <td>
                             ${ row.clienteFecha }
                          </td>
                          <td>

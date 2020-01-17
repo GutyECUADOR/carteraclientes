@@ -115,6 +115,7 @@ $sessionUSERNAME = $this->session->userdata('nombreusuario');
                   <th>Asesor</th>
                   <th>CI Cliente</th>
                   <th>Nombre Cliente</th>
+                  <th>Telefono</th>
                   <th>Nacimiento</th>
                   <th>email</th>
                   <th>Comentario</th>

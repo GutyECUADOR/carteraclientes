@@ -70,6 +70,7 @@ class CarteraCliente extends CI_Controller {
 			$apellidos = $this->input->post('apellidos');
 			$nombres = $this->input->post('nombres');
 			$clienteEmail = $this->input->post('clienteEmail');
+			$clienteTelefono = $this->input->post('clienteTelefono');
 			$clienteFecha = $this->input->post('clienteFecha');
 			$clienteEstadoCivil = $this->input->post('clienteEstadoCivil');
 			$clienteHijos = $this->input->post('clienteHijos');
@@ -99,6 +100,7 @@ class CarteraCliente extends CI_Controller {
 					'clienteCI' => $clienteCI,
 					'cliente' => $apellidos.' '.$nombres,
 					'clienteFecha' => $clienteFecha,
+					'clienteTelefono' => $clienteTelefono,
 					'clienteEmail' => $clienteEmail,
 					'clienteEstadoCivil' => $clienteEstadoCivil,
 					'clienteHijos' => $clienteHijos,
