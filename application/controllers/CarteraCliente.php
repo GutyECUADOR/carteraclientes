@@ -29,20 +29,30 @@ class CarteraCliente extends CI_Controller {
 
 
 	public function lista(){
-		$resultSet = $this->CarteraClientesModel->getClientesRegistrados();
-		$this->load->view('carteraclientes_list_view', $resultSet);
+
+		if ($this->session->userdata('logged_in')) { 
+			$databasesArray = $this->usuario->getAllDataBaseList();
+			$this->load->view('carteraclientes_list_view',  compact('databasesArray'));
+			
+		}else{
+			$databasesArray = $this->usuario->getAllDataBaseList();
+			$this->load->view('login', compact('databasesArray'));
+		}
+
+		
 			
 	}
 
 	public function getTopClientes(){
-		$search = $this->input->get('search');
+		$fechaINI = $this->input->get('fechaINI');
+		$fechaFIN = $this->input->get('fechaFIN');
 		$dbcode = $this->input->get('dbcode');
 
-		if ($search && $dbcode) {
-			$resultSet = $this->CarteraClientesModel->getClientesRegistrados($search, $dbcode);
+		if ($fechaINI && $fechaFIN && $dbcode) {
+			$resultSet = $this->CarteraClientesModel->getClientesRegistrados($fechaINI, $fechaFIN, $dbcode);
         	echo json_encode(array('ERROR' => FALSE, 'data' => $resultSet));
 		}else{
-			echo json_encode(array('ERROR' => TRUE, 'data' => ''));
+			echo json_encode(array('ERROR' => TRUE, 'data' => '', 'message' => 'No se han indicado todos los datos de busqueda'));
 		}
 		
 	}

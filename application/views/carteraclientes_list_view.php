@@ -81,9 +81,18 @@ $sessionUSERNAME = $this->session->userdata('nombreusuario');
           <div class="toolbar">
           <div class="input-group">
             <div class="input-group">
-              <input id="txtSearch" type="text" class="form-control" aria-label="Text input with segmented dropdown button">
+              <input id="fechaINI" type="date" class="form-control" value="<?php echo date('Y-m-d')?>">
+              <input id="fechaFIN" type="date" class="form-control" value="<?php echo date('Y-m-d')?>">
+              <select class="form-control m-b" id="codeEmpresa" name="codeEmpresa">
+                <option value="">Seleccione empresa</option>
+                    <?php 
+                        foreach ($databasesArray as $row) {
+                            echo "<option value='$row->Codigo'>$row->Nombre</option>";
+                        }
+                    ?>
+              </select>
               <div class="input-group-append">
-                <button id="btnSearch" type="button" class="btn btn-outline-secondary">Buscar</button>
+                <button id="btnSearch" type="button" class="btn btn-primary">Buscar</button>
                 <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <span class="sr-only">Toggle Dropdown</span>
                 </button>
@@ -97,7 +106,6 @@ $sessionUSERNAME = $this->session->userdata('nombreusuario');
             <table class="table table-striped table-sm">
               <thead>
                 <tr>
-                  <th>#</th>
                   <th>Codigo</th>
                   <th>Fecha</th>
                   <th>Empresa</th>
@@ -114,13 +122,6 @@ $sessionUSERNAME = $this->session->userdata('nombreusuario');
                 </tr>
               </thead>
               <tbody id="tableNuevosClientes">
-                <tr>
-                  <td>1,015</td>
-                  <td>sodales</td>
-                  <td>ligula</td>
-                  <td>in</td>
-                  <td>libero</td>
-                </tr>
               </tbody>
             </table>
           </div>

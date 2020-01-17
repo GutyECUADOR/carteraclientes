@@ -3,16 +3,12 @@ $(function() {
     app = {
         showResults: function (arrayData) {
         
-            $('#tbodyresults').html('');
+            $('#tableNuevosClientes').html('');
            
             arrayData.forEach(row => {
                 
                 let rowHTML = `
                     <tr>
-                        <td>
-                            ${ row.id  }
-                        </td>
-                  
                         <td>
                             ${ row.codigo }
                         </td>
@@ -24,16 +20,33 @@ $(function() {
                             ${ row.empresa }
                         </td>
                         <td>
-                            ${ row.bodega }
+                            ${ row.BodegaName }
                          </td>
                         <td>
-                            ${ row.isFacturado }
+                            ${ row.isfacturado == 1 ? '<p class="text-success">Facturado</p>' : 'No se le facturo'}
                         </td>
                        
                         <td>
-                            ${ row.nombreProducto }
-                        
+                            ${ row.isNuevoCliente == 1 ? '<p class="text-success">Nuevo Cliente</p>' : 'No es nuevo cliente' }
                         </td>
+                        <td>
+                            ${ row.asesor }
+                         </td>
+                         <td>
+                            ${ row.clienteCI }
+                         </td>
+                         <td>
+                            ${ row.cliente }
+                         </td>
+                         <td>
+                            ${ row.clienteFecha }
+                         </td>
+                         <td>
+                            ${ row.clienteEmail }
+                         </td>
+                         <td>
+                            ${ row.comentarios }
+                         </td>
                         
                     </tr>
 
@@ -46,11 +59,11 @@ $(function() {
             });
     
         },
-        searchClientes: function (search, dbcode) {
+        searchClientes: function (fechaINI, fechaFIN, dbcode) {
             $.ajax({
                 url: 'getTopClientes',
                 method: 'GET',
-                data: {search: search, dbcode: dbcode},
+                data: {fechaINI: fechaINI, fechaFIN:fechaFIN, dbcode: dbcode},
                
                 success: function(response) {
                     console.log(response);
@@ -62,7 +75,7 @@ $(function() {
                         console.log(responseJSON);
                         app.showResults(responseJSON.data);
                     }else{
-                        toastr.error('No se pudo completar la busqueda', 'Error', {timeOut: 2000});
+                        toastr.warning(responseJSON.message, 'Atencion', {timeOut: 2000});
                     }
 
                     
@@ -84,17 +97,12 @@ $(function() {
    btnBuscar.click(function (event) {
        event.preventDefault();
 
-       let input = $('#txtSearch').val();
-       let dbcode = '008'; //$('#hiddenEmpresaCode').val();
-       console.log(input)
+       let fechaINI = $('#fechaINI').val();
+       let fechaFIN = $('#fechaFIN').val();
+       let dbcode = $('#codeEmpresa').val();
+       console.log(fechaINI, fechaFIN, dbcode);
        
-
-       if (input.length <= 0) {
-           toastr.error('Indique parametros de busqueda', 'Atencion', {timeOut: 2000});
-           return;
-       }
-
-       app.searchClientes(input, dbcode);
+       app.searchClientes(fechaINI, fechaFIN, dbcode);
 
    })
     
