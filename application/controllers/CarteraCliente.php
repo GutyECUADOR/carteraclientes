@@ -43,13 +43,18 @@ class CarteraCliente extends CI_Controller {
 			
 	}
 
+	public function reporteExcel(){
+		
+	}
+
 	public function getTopClientes(){
 		$fechaINI = $this->input->get('fechaINI');
 		$fechaFIN = $this->input->get('fechaFIN');
 		$dbcode = $this->input->get('dbcode');
+		$tipoInforme = $this->input->get('tipoInforme');
 
 		if ($fechaINI && $fechaFIN && $dbcode) {
-			$resultSet = $this->CarteraClientesModel->getClientesRegistrados($fechaINI, $fechaFIN, $dbcode);
+			$resultSet = $this->CarteraClientesModel->getClientesRegistrados($fechaINI, $fechaFIN, $dbcode, $tipoInforme);
         	echo json_encode(array('ERROR' => FALSE, 'data' => $resultSet));
 		}else{
 			echo json_encode(array('ERROR' => TRUE, 'data' => '', 'message' => 'No se han indicado todos los datos de busqueda'));

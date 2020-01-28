@@ -50,23 +50,44 @@ class CarteraClientesModel extends CI_Model {
 		return $query->row();
     }
 
-    public function getClientesRegistrados($fechaINI, $fechaFIN, $dbcode='008') {
+    public function getClientesRegistrados($fechaINI, $fechaFIN, $dbcode='008', $tipoInforme='') {
 
         $this->empresa_db = $this->load->database($dbcode, TRUE);
-		$query = $this->empresa_db->query("
-        SELECT 
-            TOP 1000
-            carteraClientes.*,
-            bodega.NOMBRE as BodegaName
-        FROM 
-            dbo.INV_BODEGAS AS Bodega
-        INNER JOIN 
-            KAO_wssp.dbo.carteracliente_nuevos as carteraClientes on carteraClientes.bodega COLLATE Modern_Spanish_CI_AS = Bodega.CODIGO
-        WHERE
-            fecha BETWEEN '$fechaINI' AND '$fechaFIN'
-            AND empresa = '$dbcode'
-        ORDER BY codigo
-            ");
+        $sessionUSER = $this->session->userdata('cedula');
+
+        if ($tipoInforme == 'porBodega') {
+            $query = $this->empresa_db->query("
+                SELECT 
+                    TOP 1000
+                    carteraClientes.*,
+                    bodega.NOMBRE as BodegaName
+                FROM 
+                    dbo.INV_BODEGAS AS Bodega
+                INNER JOIN 
+                    KAO_wssp.dbo.carteracliente_nuevos as carteraClientes on carteraClientes.bodega COLLATE Modern_Spanish_CI_AS = Bodega.CODIGO
+                WHERE
+                    fecha BETWEEN '$fechaINI' AND '$fechaFIN'
+                    AND empresa = '$dbcode'
+                ORDER BY codigo
+                ");   
+        }else {
+            $query = $this->empresa_db->query("
+                SELECT 
+                    TOP 1000
+                    carteraClientes.*,
+                    bodega.NOMBRE as BodegaName
+                FROM 
+                    dbo.INV_BODEGAS AS Bodega
+                INNER JOIN 
+                    KAO_wssp.dbo.carteracliente_nuevos as carteraClientes on carteraClientes.bodega COLLATE Modern_Spanish_CI_AS = Bodega.CODIGO
+                WHERE
+                    fecha BETWEEN '$fechaINI' AND '$fechaFIN'
+                    AND empresa = '$dbcode'
+                    AND asesor = '$sessionUSER'
+                ORDER BY codigo
+                ");   
+        }
+		
 		return $query->result_array();
 	
     }

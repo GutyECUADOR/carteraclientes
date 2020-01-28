@@ -90,6 +90,12 @@ $sessionUSERNAME = $this->session->userdata('nombreusuario');
                             echo "<option value='$row->Codigo'>$row->Nombre</option>";
                         }
                     ?>
+                  
+              </select>
+              <select class="form-control m-b" id="tipoInforme" name="tipoInforme">
+                <option value="porUsuario">Simple - Por Usuario</option>
+                <option value="porBodega">General - Por Bodega</option>
+                
               </select>
               <div class="input-group-append">
                 <button id="btnSearch" type="button" class="btn btn-primary">Buscar</button>

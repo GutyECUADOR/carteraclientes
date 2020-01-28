@@ -62,11 +62,11 @@ $(function() {
             });
     
         },
-        searchClientes: function (fechaINI, fechaFIN, dbcode) {
+        searchClientes: function (fechaINI, fechaFIN, dbcode, tipoInforme) {
             $.ajax({
                 url: 'getTopClientes',
                 method: 'GET',
-                data: {fechaINI: fechaINI, fechaFIN:fechaFIN, dbcode: dbcode},
+                data: {fechaINI: fechaINI, fechaFIN:fechaFIN, dbcode: dbcode, tipoInforme: tipoInforme},
                
                 success: function(response) {
                     console.log(response);
@@ -103,9 +103,10 @@ $(function() {
        let fechaINI = $('#fechaINI').val();
        let fechaFIN = $('#fechaFIN').val();
        let dbcode = $('#codeEmpresa').val();
-       console.log(fechaINI, fechaFIN, dbcode);
+       let tipoInforme = $('#tipoInforme').val();
+       console.log(fechaINI, fechaFIN, dbcode, tipoInforme);
        
-       app.searchClientes(fechaINI, fechaFIN, dbcode);
+       app.searchClientes(fechaINI, fechaFIN, dbcode, tipoInforme);
 
    })
     
