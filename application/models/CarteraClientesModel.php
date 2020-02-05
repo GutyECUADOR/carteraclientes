@@ -37,7 +37,6 @@ class CarteraClientesModel extends CI_Model {
         return $this->wssp_db->insert_id();
     }
 
-
     public function getCliente($RUC) {
 		$query = $this->empresa_db->query("
         SELECT TOP 1 
@@ -60,11 +59,14 @@ class CarteraClientesModel extends CI_Model {
                 SELECT 
                     TOP 1000
                     carteraClientes.*,
-                    bodega.NOMBRE as BodegaName
+                    bodega.NOMBRE as BodegaName,
+                    vendedor.Nombre + vendedor.Apellido as VendedorName
                 FROM 
                     dbo.INV_BODEGAS AS Bodega
                 INNER JOIN 
                     KAO_wssp.dbo.carteracliente_nuevos as carteraClientes on carteraClientes.bodega COLLATE Modern_Spanish_CI_AS = Bodega.CODIGO
+                INNER JOIN 
+                    SBIOKAO.dbo.Empleados as vendedor on vendedor.Cedula = carteraClientes.asesor 
                 WHERE
                     fecha BETWEEN '$fechaINI' AND '$fechaFIN'
                     AND empresa = '$dbcode'
@@ -75,11 +77,14 @@ class CarteraClientesModel extends CI_Model {
                 SELECT 
                     TOP 1000
                     carteraClientes.*,
-                    bodega.NOMBRE as BodegaName
+                    bodega.NOMBRE as BodegaName,
+                    vendedor.Nombre + vendedor.Apellido as VendedorName
                 FROM 
                     dbo.INV_BODEGAS AS Bodega
                 INNER JOIN 
                     KAO_wssp.dbo.carteracliente_nuevos as carteraClientes on carteraClientes.bodega COLLATE Modern_Spanish_CI_AS = Bodega.CODIGO
+                INNER JOIN 
+                    SBIOKAO.dbo.Empleados as vendedor on vendedor.Cedula = carteraClientes.asesor 
                 WHERE
                     fecha BETWEEN '$fechaINI' AND '$fechaFIN'
                     AND empresa = '$dbcode'

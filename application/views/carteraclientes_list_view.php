@@ -79,35 +79,37 @@ $sessionUSERNAME = $this->session->userdata('nombreusuario');
         
         <div class="col-md-12 order-md-1">
           <div class="toolbar">
-          <div class="input-group">
+          <form id="filtrosForm">
             <div class="input-group">
-              <input id="fechaINI" type="date" class="form-control" value="<?php echo date('Y-m-d')?>">
-              <input id="fechaFIN" type="date" class="form-control" value="<?php echo date('Y-m-d')?>">
-              <select class="form-control m-b" id="codeEmpresa" name="codeEmpresa">
-                <option value="">Seleccione empresa</option>
-                    <?php 
-                        foreach ($databasesArray as $row) {
-                            echo "<option value='$row->Codigo'>$row->Nombre</option>";
-                        }
-                    ?>
+              <div class="input-group">
+                <input id="fechaINI" name="fechaINI" type="date" class="form-control" value="<?php echo date('Y-m-d')?>">
+                <input id="fechaFIN" name="fechaFIN" type="date" class="form-control" value="<?php echo date('Y-m-d')?>">
+                <select class="form-control m-b" id="dbcode" name="dbcode">
+                  <option value="">Seleccione empresa</option>
+                      <?php 
+                          foreach ($databasesArray as $row) {
+                              echo "<option value='$row->Codigo'>$row->Nombre</option>";
+                          }
+                      ?>
+                    
+                </select>
+                <select class="form-control m-b" id="tipoInforme" name="tipoInforme">
+                  <option value="porUsuario">Simple - Por Usuario</option>
+                  <option value="porBodega">General - Por Local</option>
                   
-              </select>
-              <select class="form-control m-b" id="tipoInforme" name="tipoInforme">
-                <option value="porUsuario">Simple - Por Usuario</option>
-                <option value="porBodega">General - Por Bodega</option>
-                
-              </select>
-              <div class="input-group-append">
-                <button id="btnSearch" type="button" class="btn btn-primary">Buscar</button>
-                <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span class="sr-only">Toggle Dropdown</span>
-                </button>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" href="#">Exportar a excel</a>
+                </select>
+                <div class="input-group-append">
+                  <button id="btnSearch" type="button" class="btn btn-primary">Buscar</button>
+                  <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" id="btnGeneraExcel"> Exportar a excel</a>
                   
+                </div>
               </div>
             </div>
-          </div>
+          </form>
           <div class="table-responsive">
             <table class="table table-striped table-sm">
               <thead>
@@ -115,10 +117,11 @@ $sessionUSERNAME = $this->session->userdata('nombreusuario');
                   <th>Codigo</th>
                   <th>Fecha</th>
                   <th>Empresa</th>
-                  <th>Bodega</th>
+                  <th>Local</th>
                   <th>Facturado</th>
                   <th>Cliente Nuevo</th>
-                  <th>Asesor</th>
+                  <th>CI Vendedor</th>
+                  <th>Nombre Vendedor</th>
                   <th>CI Cliente</th>
                   <th>Nombre Cliente</th>
                   <th>Telefono</th>

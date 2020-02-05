@@ -1,5 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class CarteraCliente extends CI_Controller {
 
@@ -181,6 +183,88 @@ class CarteraCliente extends CI_Controller {
 		}
         
 		
+	}
+
+	public function generaExcel(){
+		$filename = 'cartera-clientes'; // set filename for excel file to be exported
+		$fechaINI = $this->input->get('fechaINI');
+		$fechaFIN = $this->input->get('fechaFIN');
+		$dbcode = $this->input->get('dbcode');
+		$tipoInforme = $this->input->get('tipoInforme');
+		$resultSet = $this->CarteraClientesModel->getClientesRegistrados($fechaINI, $fechaFIN, $dbcode, $tipoInforme);
+		
+		$spreadsheet = new Spreadsheet();
+		$sheet = $spreadsheet->getActiveSheet();
+		$spreadsheet->getActiveSheet()->setAutoFilter('A1:W1');
+		
+		/* Config Sheet */
+		
+		$cont = 1;
+		/* Print Headers */
+		$sheet->setCellValue('A'.$cont, 'ID'); //Nombre de las columnas segun DB
+			$sheet->setCellValue('B'.$cont, 'CodigoRegistro')
+					->setCellValue('C'.$cont, 'Fecha Registro')
+					->setCellValue('D'.$cont, 'CodigoEmpresa')
+					->setCellValue('E'.$cont, 'CodigoLocal')
+					->setCellValue('F'.$cont, 'Local')
+					->setCellValue('G'.$cont, 'Facturado')
+					->setCellValue('H'.$cont, 'Nuevo Cliente')
+					->setCellValue('I'.$cont, 'CI Vendedor')
+					->setCellValue('J'.$cont, 'Nombre Vendedor')
+					->setCellValue('K'.$cont, 'CI Cliente')
+					->setCellValue('L'.$cont, 'Nombre Cliente')
+					->setCellValue('M'.$cont, 'clienteFecha')
+					->setCellValue('N'.$cont, 'clienteTelefono')
+					->setCellValue('O'.$cont, 'clienteEmail')
+					->setCellValue('P'.$cont, 'clienteEstadoCivil')
+					->setCellValue('Q'.$cont, 'clienteHijos')
+					->setCellValue('R'.$cont, 'sexo')
+					->setCellValue('S'.$cont, 'deporte')
+					->setCellValue('T'.$cont, 'tipoinformacion')
+					->setCellValue('U'.$cont, 'Codigo Marca')
+					->setCellValue('V'.$cont, 'marca')
+					->setCellValue('W'.$cont, 'Comentarios');
+			
+		/* Print DATA */
+		$cont = 2;
+		foreach ($resultSet as $row)
+		{
+			$sheet->setCellValue('A'.$cont, $row['id']); //Nombre de las columnas segun DB
+			$sheet->setCellValue('B'.$cont, $row['codigo']); 
+			$sheet->setCellValue('C'.$cont, $row['fecha']); 
+			$sheet->setCellValue('D'.$cont, $row['empresa']); 
+			$sheet->setCellValue('E'.$cont, $row['bodega']); 
+			$sheet->setCellValue('F'.$cont, $row['BodegaName']); 
+			$sheet->setCellValue('G'.$cont, $row['isfacturado'] ? 'Facturado': 'No se le facturo');
+			$sheet->setCellValue('H'.$cont, $row['isNuevoCliente'] ? 'Nuevo Cliente': 'No es nuevo cliente'); 
+			$sheet->setCellValue('I'.$cont, $row['asesor']); 
+			$sheet->setCellValue('J'.$cont, $row['VendedorName']);
+			$sheet->setCellValue('K'.$cont, $row['clienteCI']);
+			$sheet->setCellValue('L'.$cont, $row['cliente']);
+			$sheet->setCellValue('M'.$cont, $row['clienteFecha']);
+			$sheet->setCellValue('N'.$cont, $row['clienteTelefono']);
+			$sheet->setCellValue('O'.$cont, $row['clienteEmail']);
+			$sheet->setCellValue('P'.$cont, $row['clienteEstadoCivil']);
+			$sheet->setCellValue('Q'.$cont, $row['clienteHijos']);
+			$sheet->setCellValue('R'.$cont, $row['sexo'] == 'M' ? 'Masculino' : 'Femenino');
+			$sheet->setCellValue('S'.$cont, $row['deporte']);
+			$sheet->setCellValue('T'.$cont, $row['tipoinformacion']);
+			$sheet->setCellValue('U'.$cont, $row['marca']);
+			$sheet->setCellValue('V'.$cont, $row['marca']);
+			$sheet->setCellValue('W'.$cont, $row['comentarios']);
+			$cont++;
+		}
+		
+		/* Create Document XLSX */
+
+		$writer = new Xlsx($spreadsheet);
+
+		/* Display or output */
+		header('Content-Type: application/vnd.ms-excel'); // generate excel file
+        header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
+		header('Cache-Control: max-age=0');
+		
+		$writer->save('php://output');
 	}
 	
 	public function sendEmailCliente() {

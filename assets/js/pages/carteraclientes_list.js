@@ -33,6 +33,9 @@ $(function() {
                             ${ row.asesor }
                          </td>
                          <td>
+                            ${ row.VendedorName }
+                        </td>
+                         <td>
                             ${ row.clienteCI }
                          </td>
                          <td>
@@ -91,6 +94,17 @@ $(function() {
                 }
     
             });
+        },
+        generaInformeExcel: function (fechaINI, fechaFIN, dbcode, tipoInforme) {
+           if (fechaINI && fechaFIN && dbcode && tipoInforme) {
+            let  inputs = $("#filtrosForm").serialize();
+            let url = 'generaExcel?'+inputs;
+            location.href = url; // nombre de la funcion en el controlador
+            toastr.success('Generando archivo EXCEL', 'Espere', {timeOut: 2000});
+           }else{
+            toastr.warning('Filtros para informe incompletos.', 'Atencion', {timeOut: 2000});
+           }
+            
         }
     }
 
@@ -102,11 +116,24 @@ $(function() {
 
        let fechaINI = $('#fechaINI').val();
        let fechaFIN = $('#fechaFIN').val();
-       let dbcode = $('#codeEmpresa').val();
+       let dbcode = $('#dbcode').val();
        let tipoInforme = $('#tipoInforme').val();
        console.log(fechaINI, fechaFIN, dbcode, tipoInforme);
        
        app.searchClientes(fechaINI, fechaFIN, dbcode, tipoInforme);
+
+   })
+
+   let btnGeneraExcel = $('#btnGeneraExcel');
+   btnGeneraExcel.click(function (event) {
+       event.preventDefault();
+
+       let fechaINI = $('#fechaINI').val();
+       let fechaFIN = $('#fechaFIN').val();
+       let dbcode = $('#dbcode').val();
+       let tipoInforme = $('#tipoInforme').val();
+       console.log(fechaINI, fechaFIN, dbcode, tipoInforme);
+       app.generaInformeExcel(fechaINI, fechaFIN, dbcode, tipoInforme);
 
    })
     
