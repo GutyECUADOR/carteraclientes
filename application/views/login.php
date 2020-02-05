@@ -67,7 +67,8 @@
         <label class="sr-only">Usuario</label>
         <input type="text" id="usuario" name="usuario" class="form-control" placeholder="Usuario" required autofocus>
         </br>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Ingresar</button>
+        <button class="btn btn-lg btn-primary btn-block " type="submit">Ingresar</button>
+        <a class="btn btn-lg btn-danger btn-block" href="../" role="button">Regresar</a>
         <p class="mt-5 mb-3 text-muted">Derechos reservados &copy; <?php echo date('Y')?></small></p>
     </form>
 
