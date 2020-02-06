@@ -20,7 +20,8 @@ class CarteraCliente extends CI_Controller {
 
 		if ($this->session->userdata('logged_in')) { 
 				$marcasArray = $this->CarteraClientesModel->getMarcas();
-				$this->load->view('carteraclientes_view', compact('marcasArray'));
+				$deportesArray = $this->CarteraClientesModel->getDeportes();
+				$this->load->view('carteraclientes_view', compact('marcasArray','deportesArray'));
 				
 			}else{
 				$databasesArray = $this->usuario->getAllDataBaseList();
@@ -43,10 +44,6 @@ class CarteraCliente extends CI_Controller {
 
 		
 			
-	}
-
-	public function reporteExcel(){
-		
 	}
 
 	public function getTopClientes(){
@@ -198,6 +195,10 @@ class CarteraCliente extends CI_Controller {
 		$spreadsheet->getActiveSheet()->setAutoFilter('A1:W1');
 		
 		/* Config Sheet */
+		foreach(range('A','W') as $columnID) {
+			$spreadsheet->getActiveSheet()->getColumnDimension($columnID)
+				->setAutoSize(true);
+		}
 		
 		$cont = 1;
 		/* Print Headers */
@@ -244,13 +245,13 @@ class CarteraCliente extends CI_Controller {
 			$sheet->setCellValue('M'.$cont, $row['clienteFecha']);
 			$sheet->setCellValue('N'.$cont, $row['clienteTelefono']);
 			$sheet->setCellValue('O'.$cont, $row['clienteEmail']);
-			$sheet->setCellValue('P'.$cont, $row['clienteEstadoCivil']);
+			$sheet->setCellValue('P'.$cont, $row['EstadoCivilName']);
 			$sheet->setCellValue('Q'.$cont, $row['clienteHijos']);
 			$sheet->setCellValue('R'.$cont, $row['sexo'] == 'M' ? 'Masculino' : 'Femenino');
-			$sheet->setCellValue('S'.$cont, $row['deporte']);
+			$sheet->setCellValue('S'.$cont, $row['DeporteName']);
 			$sheet->setCellValue('T'.$cont, $row['tipoinformacion']);
 			$sheet->setCellValue('U'.$cont, $row['marca']);
-			$sheet->setCellValue('V'.$cont, $row['marca']);
+			$sheet->setCellValue('V'.$cont, $row['MarcaName']);
 			$sheet->setCellValue('W'.$cont, $row['comentarios']);
 			$cont++;
 		}

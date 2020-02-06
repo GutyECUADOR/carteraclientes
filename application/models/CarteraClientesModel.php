@@ -25,6 +25,12 @@ class CarteraClientesModel extends CI_Model {
 		return $resultSet;
     }
 
+    public function getDeportes() {
+		$query = $this->wssp_db->get('deportes');
+		$resultSet = $query->result_array();
+		return $resultSet;
+    }
+
     public function generaNewCodigo() {
         $query = $this->wssp_db->query("SELECT 'CLI'+RIGHT('000000'+ISNULL(CONVERT (Varchar , (SELECT COUNT(*)+1 FROM dbo.carteracliente_nuevos)),''),6) as codigo");
         $resultset = $query->row();
@@ -59,14 +65,18 @@ class CarteraClientesModel extends CI_Model {
                 SELECT 
                     TOP 1000
                     carteraClientes.*,
-                    bodega.NOMBRE as BodegaName,
-                    vendedor.Nombre + vendedor.Apellido as VendedorName
+                    INV_BODEGAS.NOMBRE as BodegaName,
+                    vendedor.Nombre + vendedor.Apellido as VendedorName,
+                    marca.NOMBRE as MarcaName,
+                    deporte.descripcion as DeporteName,
+                    estadoCivil.descripcion as EstadoCivilName
                 FROM 
-                    dbo.INV_BODEGAS AS Bodega
-                INNER JOIN 
-                    KAO_wssp.dbo.carteracliente_nuevos as carteraClientes on carteraClientes.bodega COLLATE Modern_Spanish_CI_AS = Bodega.CODIGO
-                INNER JOIN 
-                    SBIOKAO.dbo.Empleados as vendedor on vendedor.Cedula = carteraClientes.asesor 
+                    dbo.INV_BODEGAS 
+                INNER JOIN KAO_wssp.dbo.carteracliente_nuevos as carteraClientes on carteraClientes.bodega COLLATE Modern_Spanish_CI_AS = INV_BODEGAS.CODIGO
+                INNER JOIN SBIOKAO.dbo.Empleados as vendedor on vendedor.Cedula = carteraClientes.asesor
+                INNER JOIN dbo.INV_MARCAS as marca on carteraClientes.marca COLLATE Modern_Spanish_CI_AS  = marca.CODIGO
+                INNER JOIN KAO_wssp.dbo.deportes as deporte on deporte.codigo = carteraClientes.deporte
+                INNER JOIN KAO_wssp.dbo.estados_civiles as estadoCivil on estadoCivil.codigo = carteraClientes.clienteEstadoCivil
                 WHERE
                     fecha BETWEEN '$fechaINI' AND '$fechaFIN'
                     AND empresa = '$dbcode'
@@ -77,14 +87,18 @@ class CarteraClientesModel extends CI_Model {
                 SELECT 
                     TOP 1000
                     carteraClientes.*,
-                    bodega.NOMBRE as BodegaName,
-                    vendedor.Nombre + vendedor.Apellido as VendedorName
+                    INV_BODEGAS.NOMBRE as BodegaName,
+                    vendedor.Nombre + vendedor.Apellido as VendedorName,
+                    marca.NOMBRE as MarcaName,
+                    deporte.descripcion as DeporteName,
+                    estadoCivil.descripcion as EstadoCivilName
                 FROM 
-                    dbo.INV_BODEGAS AS Bodega
-                INNER JOIN 
-                    KAO_wssp.dbo.carteracliente_nuevos as carteraClientes on carteraClientes.bodega COLLATE Modern_Spanish_CI_AS = Bodega.CODIGO
-                INNER JOIN 
-                    SBIOKAO.dbo.Empleados as vendedor on vendedor.Cedula = carteraClientes.asesor 
+                    dbo.INV_BODEGAS 
+                INNER JOIN KAO_wssp.dbo.carteracliente_nuevos as carteraClientes on carteraClientes.bodega COLLATE Modern_Spanish_CI_AS = INV_BODEGAS.CODIGO
+                INNER JOIN SBIOKAO.dbo.Empleados as vendedor on vendedor.Cedula = carteraClientes.asesor
+                INNER JOIN dbo.INV_MARCAS as marca on carteraClientes.marca COLLATE Modern_Spanish_CI_AS  = marca.CODIGO
+                INNER JOIN KAO_wssp.dbo.deportes as deporte on deporte.codigo = carteraClientes.deporte
+                INNER JOIN KAO_wssp.dbo.estados_civiles as estadoCivil on estadoCivil.codigo = carteraClientes.clienteEstadoCivil
                 WHERE
                     fecha BETWEEN '$fechaINI' AND '$fechaFIN'
                     AND empresa = '$dbcode'

@@ -152,11 +152,13 @@ $sessionUSERNAME = $this->session->userdata('nombreusuario');
               <label>Deporte que mas practica</label>
                 <select class="custom-select d-block w-100" id="deporte" name="deporte" required="">
                   <option value="">Seleccione</option>
-                  <option value="FUT">Futbol</option>
-                  <option value="TEN">Tenis</option>
-                  <option value="BAS">Basket</option>
-                  <option value="NAT">Natacion</option>
-                  <option value="CIC">Ciclismo</option>
+                  <?php 
+                        foreach ($deportesArray as $row) {
+                          $codigo = $row['codigo']; 
+                          $detalle = $row['descripcion']; 
+                          echo "<option value='$codigo'>$detalle</option>";
+                        }
+                    ?>
                 </select>
             </div>
 
