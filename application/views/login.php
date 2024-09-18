@@ -39,7 +39,8 @@
     <?php echo form_open('login/checklogin', array('id' => 'registerForm', 'autocomplete' => 'off', 'class'=> 'form-signin',  'role'=> 'form' )); ?>
     
         <img src="<?php echo base_url()?>assets/img/logo_dark.png" alt="logo" width="200" height="50">
-        <h1 class="h3 mb-3 font-weight-normal">Ingrese al sistema</h1>
+        <h1 class="h3 mb-3 font-weight-normal">Cartera de clientes</h1>
+        <small class="mb-3 font-weight-normal">Usuario de winfenix v7</h1>
 
         <?php 
             if($this->session->flashdata('errormassage')){
